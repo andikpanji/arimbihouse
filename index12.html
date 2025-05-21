@@ -1,0 +1,873 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ARIMBI HOUSE</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #f0f2f5;
+      color: #333;
+    }
+
+    header {
+      position: relative;
+      height: 400px;
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      color: white;
+    }
+
+    header img {
+      position: absolute;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: 0;
+      transition: opacity 1s ease-in-out;
+    }
+
+    header::after {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.4);
+      z-index: 1;
+    }
+
+    header h1, header p {
+      position: relative;
+      z-index: 2;
+    }
+
+    nav {
+      position: sticky;
+      top: 0;
+      background: white;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      padding: 14px;
+      z-index: 1000;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #2E7D32;
+      font-weight: 600;
+      padding: 8px 12px;
+      border-radius: 6px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background: #e0f2f1;
+    }
+
+    section {
+      max-width: 960px;
+      margin: auto;
+      padding: 60px 20px;
+    }
+
+    .room-card {
+      background: rgba(255, 255, 255, 0.8);
+      backdrop-filter: blur(10px);
+      margin-bottom: 20px;
+      padding: 24px;
+      border-radius: 16px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.06);
+    }
+
+    input, select {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      margin-top: 6px;
+    }
+
+    .btn {
+      background: #2E7D32;
+      color: white;
+      padding: 12px 20px;
+      border: none;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn:hover {
+      background: #1b5e20;
+    }
+
+    iframe {
+      width: 100%;
+      height: 350px;
+      border: none;
+      border-radius: 16px;
+    }
+
+    .social p a {
+      color: #2E7D32;
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    footer {
+      background: #1B5E20;
+      color: white;
+      text-align: center;
+      padding: 20px;
+      font-size: 14px;
+      margin-top: 40px;
+    }
+
+    @media (max-width: 600px) {
+      nav {
+        flex-wrap: wrap;
+      }
+
+      header h1 {
+        font-size: 32px;
+      }
+    }
+
+    .kos-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .kos-card {
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      overflow: hidden;
+      width: 280px;
+      transition: transform 0.3s;
+      position: relative;
+    }
+
+    .kos-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .room-image-container {
+      height: 180px;
+      overflow: hidden;
+    }
+
+    .room-image {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .kos-card h3 {
+      margin: 10px;
+      font-size: 1.1em;
+    }
+
+    .kos-card p {
+      margin: 5px 10px;
+      color: #444;
+      font-size: 0.95em;
+    }
+
+    .harga {
+      font-weight: bold;
+      color: #2E7D32;
+    }
+
+    .diskon {
+      text-decoration: line-through;
+      color: #999;
+      margin-right: 5px;
+    }
+
+    .label {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: #4CAF50;
+      color: white;
+      font-size: 0.75em;
+      padding: 4px 8px;
+      border-radius: 5px;
+      text-transform: uppercase;
+      z-index: 2;
+    }
+
+    .label.putri { background: #e91e63; }
+    .label.putra { background: #2196f3; }
+
+    /* New styles for booking section */
+    .booking-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .room-preview {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .booking-form {
+      flex: 1;
+      min-width: 300px;
+    }
+
+    .preview-slideshow {
+      position: relative;
+      height: 250px;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+    }
+
+    .preview-slideshow img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      position: absolute;
+      top: 0;
+      left: 0;
+      opacity: 0;
+      transition: opacity 0.5s ease;
+    }
+
+    .preview-slideshow img.active {
+      opacity: 1;
+    }
+
+    .slide-controls {
+      display: flex;
+      justify-content: center;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .slide-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ddd;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .slide-dot.active {
+      background: #2E7D32;
+    }
+
+    .room-features {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 10px;
+      margin-top: 15px;
+    }
+
+    .room-features ul {
+      padding-left: 20px;
+      margin: 10px 0 0 0;
+    }
+
+    .room-features li {
+      margin-bottom: 8px;
+    }
+
+    .form-group {
+      margin-bottom: 20px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: #444;
+    }
+
+    /* Rating styles */
+    .rating-container {
+      margin-top: 20px;
+      padding: 15px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .rating-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .rating-stars {
+      color: #FFD700;
+      font-size: 1.2em;
+      margin-right: 10px;
+    }
+
+    .rating-value {
+      font-weight: bold;
+      font-size: 1.3em;
+      margin-right: 5px;
+    }
+
+    .rating-count {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .review {
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 1px solid #eee;
+    }
+
+    .review:first-child {
+      border-top: none;
+    }
+
+    .review-user {
+      font-weight: bold;
+      margin-bottom: 5px;
+    }
+
+    .review-date {
+      color: #666;
+      font-size: 0.8em;
+      margin-left: 10px;
+    }
+
+    .review-text {
+      margin-top: 8px;
+      line-height: 1.5;
+    }
+
+    .review-stars {
+      color: #FFD700;
+      font-size: 0.9em;
+    }
+
+    /* Navigation arrows */
+    .slide-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: rgba(0,0,0,0.5);
+      color: white;
+      border: none;
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      z-index: 10;
+      transition: all 0.3s;
+    }
+
+    .slide-nav:hover {
+      background: rgba(0,0,0,0.8);
+    }
+
+    .slide-prev {
+      left: 10px;
+    }
+
+    .slide-next {
+      right: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <img id="slideshow" src="C:\Users\apaba\Documents\arimbi-house\banner.jpeg" alt="Slideshow">
+    <div>
+      <h1>ARIMBI HOUSE</h1>
+      <p>Kos Putra & Putri di lokasi strategis & nyaman</p>
+    </div>
+  </header>
+
+  <nav>
+    <a href="#kos">Kamar Kos</a>
+    <a href="#pesan">Pemesanan</a>
+    <a href="#lokasi">Lokasi</a>
+    <a href="#sosial">Sosial Media</a>
+  </nav>
+
+  <section id="kos">
+    <h2>Kamar Kos</h2>
+    <div class="kos-container">
+      <div class="kos-card">
+        <div class="room-image-container">
+          <img src="lorong.jpeg" alt="Kamar Putra" class="room-image">
+        </div>
+        <div class="label putra">Putra</div>
+        <h3>Kost Arimbi Putra</h3>
+        <p>WiFi • Kamar Mandi Dalam</p>
+        <p class="harga"><span class="diskon">Rp450.000</span> Rp400.000 / bulan</p>
+      </div>
+  
+      <div class="kos-card">
+        <div class="room-image-container">
+          <img src="kamar luar.jpeg" alt="Kamar Putri" class="room-image">
+        </div>
+        <div class="label putri">Putri</div>
+        <h3>Kost Arimbi Putri</h3>
+        <p>WiFi • Kamar Mandi Dalam • AC</p>
+        <p class="harga"><span class="diskon">Rp550.000</span> Rp500.000 / bulan</p>
+      </div>
+    </div>
+  </section>
+  
+  <section id="pesan">
+    <h2>Form Pemesanan</h2>
+    <div class="booking-container">
+      <div class="room-preview">
+        <h3>Preview kos-kosan</h3>
+        <div class="preview-slideshow">
+          <button class="slide-nav slide-prev"><i class="fas fa-chevron-left"></i></button>
+          <button class="slide-nav slide-next"><i class="fas fa-chevron-right"></i></button>
+          <!-- Images will be inserted by JavaScript -->
+        </div>
+        <div class="slide-controls">
+          <!-- Dots will be inserted by JavaScript -->
+        </div>
+        <div class="room-features">
+          <h4>Fasilitas Kamar:</h4>
+          <ul id="room-facilities">
+            <li>Kamar mandi dalam</li>
+            <li>WiFi high speed</li>
+            <li>Kasur dan bantal</li>
+            <li>Lemari pakaian</li>
+            <li>Meja belajar</li>
+          </ul>
+        </div>
+        
+        <div class="rating-container">
+          <div class="rating-header">
+            <div class="rating-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star-half-alt"></i>
+            </div>
+            <div class="rating-value">4.5</div>
+            <div class="rating-count">(24 ulasan)</div>
+          </div>
+          
+          <div class="review">
+            <div>
+              <span class="review-user">Budi Santoso</span>
+              <span class="review-date">2 minggu lalu</span>
+            </div>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+            </div>
+            <div class="review-text">
+              Tempatnya nyaman banget, dekat dengan kampus dan fasilitas lengkap. Pemiliknya juga ramah-ramah.
+            </div>
+          </div>
+          
+          <div class="review">
+            <div>
+              <span class="review-user">Ani Wijaya</span>
+              <span class="review-date">1 bulan lalu</span>
+            </div>
+            <div class="review-stars">
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="fas fa-star"></i>
+              <i class="far fa-star"></i>
+            </div>
+            <div class="review-text">
+              Harganya terjangkau untuk fasilitas yang diberikan. Cuma kadang airnya kurang deras di jam-jam sibuk.
+            </div>
+          </div>
+        </div>
+      </div>
+      
+        <div class="booking-form">
+        <form onsubmit="pesanKamar(event)">
+          <div class="form-group">
+            <label for="nama">Nama Lengkap:</label>
+            <input type="text" id="nama" required>
+          </div>
+          <div class="form-group">
+            <label for="wa">Nomor WhatsApp:</label>
+            <input type="tel" id="wa" placeholder="08xxxxxxxxxx" required>
+          </div>
+          <div class="form-group">
+            <label for="jenis">Pilih Jenis Kamar:</label>
+            <select id="jenis" onchange="updateRoomPreview()">
+              <option value="putra">Putra</option>
+              <option value="putri">Putri</option>
+            </select>
+          </div>
+<div class="form-group">
+  <label for="nomor-kamar">Nomor Kamar:</label>
+  <select id="nomor-kamar" required>
+    <option value="">-- Pilih Jenis Kamar Dulu --</option>
+  </select>
+</div>
+          <div class="form-group">
+            <label for="durasi">Durasi (bulan):</label>
+            <input type="number" id="durasi" min="1" required>
+          </div>
+          <button class="btn" type="submit">Pesan Sekarang</button>
+        </form>
+        <p id="hasil" style="margin-top:20px; font-weight:500;"></p>
+      </div>
+    </div>
+  </section>
+
+  <section id="lokasi">
+    <h2>Lokasi Kos</h2>
+    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3956.3671293525185!2d109.23936619999999!3d-7.424560700000002!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e655f0ed745ecb3%3A0x3c45f495fc47253a!2sArimbi%20House%20Putri!5e0!3m2!1sid!2sid!4v1746684747028!5m2!1sid!2sid" allowfullscreen="" loading="lazy"></iframe>
+  </section>
+
+  <section id="sosial">
+    <h2>Sosial Media Kos</h2>
+    <div class="social">
+      <p>Instagram: <a href="https://instagram.com/arimbihouse" target="_blank">@arimbihouse</a></p>
+      <p>Facebook: <a href="https://facebook.com/arimbihouse" target="_blank">ARIMBI HOUSE</a></p>
+      <p>WhatsApp: <a href="https://wa.me/6281327462255" target="_blank">0813-2746-2255</a></p>
+    </div>
+  </section>
+
+  <footer>
+    <p>&copy; 2025 ARIMBI HOUSE. All rights reserved.</p>
+  </footer>
+
+<script>
+    // Room data with numbers
+    const roomData = {
+      putra: {
+        numbers: [1, 2, 3, 4, 5],
+        images: [
+          'kmrptra.jpeg', 
+          'luarkos.jpeg', 
+          'parkiran.jpeg',
+          'router.jpeg',
+          'wc.jpeg',
+          'halaman.jpeg'
+        ],
+        facilities: [
+          "Kamar mandi dalam",
+          "WiFi high speed",
+          "Kasur dan bantal",
+          "Lemari pakaian",
+          "Meja belajar",
+          "Kipas angin"
+        ],
+        ratings: {
+          average: 4.3,
+          count: 18,
+          reviews: [
+            {
+              name: "Budi Santoso",
+              date: "2 minggu lalu",
+              rating: 5,
+              text: "Tempatnya nyaman banget, dekat dengan kampus dan fasilitas lengkap. Pemiliknya juga ramah-ramah."
+            },
+            {
+              name: "Agung susetiyo ",
+              date: "2 minggu lalu",
+              rating: 4,
+              text: "Waktu saya dapat customer gosend dr gojek ,bgtu tanya alamat ini banyak yang tahu termasuk tempat kost terkenal."
+            },
+
+            {
+              name: "selina ",
+              date: "2 minggu lalu",
+              rating: 4,
+              text: "Tempatnya nyaman , tapi kadang wifinya ngeleg."
+            }
+          ]
+        }
+      },
+      putri: {
+        numbers: [6, 7, 8, 9, 10],
+        images: [
+          'halaman.jpeg', 
+          'lorong.jpeg', 
+          'wcptri.jpeg',
+          'depan.jpeg',
+          'parkiran.jpeg',
+          'kmr ptri.jpeg'
+        ],
+        facilities: [
+          "Kamar mandi dalam",
+          "WiFi high speed",
+          "AC",
+          "Kasur premium",
+          "Lemari pakaian besar"
+        ],
+        ratings: {
+          average: 4.7,
+          count: 24,
+          reviews: [
+            {
+              name: "Ani Wijaya",
+              date: "1 bulan lalu",
+              rating: 5,
+              text: "AC-nya dingin banget dan kamar mandinya bersih."
+            }
+          ]
+        }
+      }
+    };
+
+    // Update room preview and number options
+    function updateRoomPreview() {
+      const roomType = document.getElementById('jenis').value;
+      const roomNumberSelect = document.getElementById('nomor-kamar');
+      const slideshow = document.querySelector('.preview-slideshow');
+      const dotsContainer = document.querySelector('.slide-controls');
+      const facList = document.getElementById('room-facilities');
+      const ratingContainer = document.querySelector('.rating-container');
+      
+      // Update room number options
+      roomNumberSelect.innerHTML = '';
+      if (roomType) {
+        roomNumberSelect.disabled = false;
+        const defaultOption = document.createElement('option');
+        defaultOption.value = '';
+        defaultOption.textContent = '-- Pilih Nomor Kamar --';
+        roomNumberSelect.appendChild(defaultOption);
+        
+        roomData[roomType].numbers.forEach(number => {
+          const option = document.createElement('option');
+          option.value = number;
+          option.textContent = `Kamar ${number}`;
+          roomNumberSelect.appendChild(option);
+        });
+      } else {
+        roomNumberSelect.disabled = true;
+        roomNumberSelect.innerHTML = '<option value="">-- Pilih Jenis Kamar Dulu --</option>';
+      }
+      
+      // Update slideshow images
+      slideshow.innerHTML = `
+        <button class="slide-nav slide-prev"><i class="fas fa-chevron-left"></i></button>
+        <button class="slide-nav slide-next"><i class="fas fa-chevron-right"></i></button>
+      `;
+      
+      roomData[roomType].images.forEach((img, index) => {
+        const imgEl = document.createElement('img');
+        imgEl.src = img;
+        imgEl.alt = `Kamar ${roomType} ${index + 1}`;
+        if (index === 0) imgEl.classList.add('active');
+        slideshow.appendChild(imgEl);
+      });
+      
+      // Update dots
+      dotsContainer.innerHTML = '';
+      roomData[roomType].images.forEach((_, index) => {
+        const dot = document.createElement('div');
+        dot.className = 'slide-dot';
+        if (index === 0) dot.classList.add('active');
+        dot.setAttribute('data-index', index);
+        dotsContainer.appendChild(dot);
+      });
+      
+      // Update facilities list
+      facList.innerHTML = '';
+      roomData[roomType].facilities.forEach(fac => {
+        const li = document.createElement('li');
+        li.textContent = fac;
+        facList.appendChild(li);
+      });
+      
+      // Update ratings
+      const rating = roomData[roomType].ratings;
+      const starsFull = Math.floor(rating.average);
+      const hasHalf = rating.average % 1 >= 0.5;
+      
+      let starsHtml = '';
+      for (let i = 1; i <= 5; i++) {
+        if (i <= starsFull) {
+          starsHtml += '<i class="fas fa-star"></i>';
+        } else if (i === starsFull + 1 && hasHalf) {
+          starsHtml += '<i class="fas fa-star-half-alt"></i>';
+        } else {
+          starsHtml += '<i class="far fa-star"></i>';
+        }
+      }
+      
+      let reviewsHtml = '';
+      rating.reviews.forEach(review => {
+        let reviewStars = '';
+        for (let i = 1; i <= 5; i++) {
+          reviewStars += i <= review.rating ? 
+            '<i class="fas fa-star"></i>' : 
+            '<i class="far fa-star"></i>';
+        }
+        
+        reviewsHtml += `
+          <div class="review">
+            <div>
+              <span class="review-user">${review.name}</span>
+              <span class="review-date">${review.date}</span>
+            </div>
+            <div class="review-stars">
+              ${reviewStars}
+            </div>
+            <div class="review-text">
+              ${review.text}
+            </div>
+          </div>
+        `;
+      });
+      
+      ratingContainer.innerHTML = `
+        <div class="rating-header">
+          <div class="rating-stars">
+            ${starsHtml}
+          </div>
+          <div class="rating-value">${rating.average}</div>
+          <div class="rating-count">(${rating.count} ulasan)</div>
+        </div>
+        ${reviewsHtml}
+      `;
+      
+      // Initialize slideshow controls
+      initPreviewSlideshow();
+    }
+
+    // Initialize preview slideshow
+    function initPreviewSlideshow() {
+      const slideshow = document.querySelector('.preview-slideshow');
+      const images = slideshow.querySelectorAll('img');
+      const dots = document.querySelectorAll('.slide-controls .slide-dot');
+      const prevBtn = slideshow.querySelector('.slide-prev');
+      const nextBtn = slideshow.querySelector('.slide-next');
+      let currentIndex = 0;
+      
+      function showImage(index) {
+        images.forEach((img, i) => {
+          img.classList.toggle('active', i === index);
+        });
+        dots.forEach((dot, i) => {
+          dot.classList.toggle('active', i === index);
+        });
+        currentIndex = index;
+      }
+      
+      prevBtn.addEventListener('click', () => {
+        const newIndex = (currentIndex - 1 + images.length) % images.length;
+        showImage(newIndex);
+      });
+      
+      nextBtn.addEventListener('click', () => {
+        const newIndex = (currentIndex + 1) % images.length;
+        showImage(newIndex);
+      });
+      
+      dots.forEach((dot, index) => {
+        dot.addEventListener('click', () => {
+          showImage(index);
+        });
+      });
+    }
+
+    // Booking form submission
+    function pesanKamar(event) {
+      event.preventDefault();
+      const nama = document.getElementById('nama').value;
+      const wa = document.getElementById('wa').value;
+      const jenis = document.getElementById('jenis').value;
+      const nomor = document.getElementById('nomor-kamar').value;
+      const durasi = document.getElementById('durasi').value;
+      
+      // Validate form
+      if (!jenis || !nomor) {
+        alert('Silakan pilih jenis dan nomor kamar terlebih dahulu');
+        return;
+      }
+      
+      const harga = jenis === 'putra' ? 400000 : 500000;
+      const total = harga * durasi;
+      
+      const hasil = document.getElementById('hasil');
+      hasil.innerHTML = `Terima kasih ${nama}!<br>
+                        Kamar ${jenis} No. ${nomor}<br>
+                        Durasi: ${durasi} bulan<br>
+                        Total: Rp${total.toLocaleString()}<br>
+                        Kami akan menghubungi via WhatsApp (${wa}) segera.`;
+      hasil.style.color = '#2E7D32';
+      
+      // Reset form
+      event.target.reset();
+    }
+
+    // Smooth scrolling for navigation
+    function initSmoothScrolling() {
+      document.querySelectorAll('nav a').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+          e.preventDefault();
+          
+          const targetId = this.getAttribute('href');
+          const targetElement = document.querySelector(targetId);
+          
+          if (targetElement) {
+            window.scrollTo({
+              top: targetElement.offsetTop - 20,
+              behavior: 'smooth'
+            });
+            
+            // Update URL without jumping
+            if (history.pushState) {
+              history.pushState(null, null, targetId);
+            } else {
+              location.hash = targetId;
+            }
+          }
+        });
+      });
+    }
+
+    // Initialize everything when page loads
+    window.addEventListener('DOMContentLoaded', () => {
+      // Initialize room numbers dropdown
+      updateRoomPreview();
+      
+      // Add event listener for room type change
+      document.getElementById('jenis').addEventListener('change', updateRoomPreview);
+      
+      // Initialize smooth scrolling
+      initSmoothScrolling();
+    });
+  </script>
+</body>
+</html>
